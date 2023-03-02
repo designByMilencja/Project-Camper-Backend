@@ -27,7 +27,7 @@ lib-cov
 coverage
 *.lcov
 
-# nyc test coverage
+# nyc add-place.record coverage
 .nyc_output
 
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
@@ -142,3 +142,4 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+utils/db.ts
