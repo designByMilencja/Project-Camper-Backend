@@ -1,2 +1,2 @@
-export * from './add-payment.record';
-export * from './add-place.record';
+export * from './add-payment.entity';
+export * from './add-place.entity';

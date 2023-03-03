@@ -1,6 +1,6 @@
-export interface AddPaymentRecord {
+export interface AddPlaceEntity {
     id:string;
     name:string;
-    price: number;
+    currency: string;
     createdAt: string;
 }
