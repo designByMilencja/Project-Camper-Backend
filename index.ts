@@ -8,6 +8,7 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:3000',
 }));
+
 app.use(express.json());
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 15 minutes

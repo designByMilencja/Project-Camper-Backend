@@ -1,6 +1,10 @@
 export interface AddPlaceEntity {
-    id:string;
-    name:string;
+    id: string;
+    name: string;
     currency: string;
-    createdAt: string;
+    addedAt: string;
+    sumPayments: number;
+}
+export interface AddNewPlaceEntity extends Omit<AddPlaceEntity, "id"> {
+    id?: string;
 }

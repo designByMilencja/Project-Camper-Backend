@@ -1,6 +1,9 @@
 export interface AddPaymentEntity {
     id:string;
-    name:string;
     cost: number;
-    createdAt: string;
+    boughtAt: string;
+    catSymbol:string;
+}
+export interface AddNewPaymentEntity extends Omit<AddPaymentEntity, "id"> {
+    id?: string;
 }
