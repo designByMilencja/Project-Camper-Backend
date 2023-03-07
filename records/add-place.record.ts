@@ -9,23 +9,18 @@ export class AddPlaceRecord implements AddPlaceEntity {
     id: string;
     name: string;
     currency: string;
-    addedAt: string;
-    sumPayments: number;
 
     constructor(obj: AddNewPlaceEntity) {
-        const { name, currency, addedAt} = obj;
+        const {name, currency} = obj;
         if (!name || name === '') {
             throw new ValidationError('Wpisz nazwę miejsca, które chcesz dodać.')
         }
         if (!currency || currency === '') {
             throw new ValidationError('Wybierz walutę, która obowiązuje w wybranym miejscu.')
         }
-        if (!addedAt || addedAt === '') {
-            throw new ValidationError('Wybierz datę, od kiedy jesteś w tym miejscu.')
-        }
     }
 
-    static async getOnePlace(id: string): Promise<AddPlaceEntity| null> {
+    static async getOnePlace(id: string): Promise<AddPlaceEntity | null> {
         const [results] = (await pool.execute('SELECT * FROM `places` WHERE `id` = :id', {
             id,
         })) as PlaceRecordResult;
