@@ -1,3 +1,3 @@
-export * from './add-payment.entity';
-export * from './add-place.entity';
-export * from './add-category.entity';
+export * from './payment.entity';
+export * from './place.entity';
+export * from './category.entity';
