@@ -53,7 +53,7 @@ export class CategoryRecord implements CategoryEntity {
         return results.length === 0 ? null : new CategoryRecord(results[0]);
     }
 
-    static async getAllCategories(): Promise<CategoryRecord[]> {
+    static async getListOfCategories(): Promise<CategoryRecord[]> {
         const [results] = await pool.execute('SELECT * FROM `categories`') as CategoryRecordResult;
         return results.map(obj => new CategoryRecord(obj))
     }

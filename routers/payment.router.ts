@@ -1,17 +1,12 @@
 import {Router} from "express";
 import {PaymentRecord} from "../records/payment.record";
 import {ValidationError} from "../utils/errors";
-
 export const paymentRouter = Router();
 paymentRouter
 
     .get('/', async (req, res) => {
-        const paymentsList = await PaymentRecord.getAllPayments();
+        const paymentsList = await PaymentRecord.getListOfPayments();
         res.json(paymentsList);
-    })
-    .get('/sum/:idCategory', async(req, res)=> {
-        const sum = await PaymentRecord.sumPaymentsAtOneCategory(req.params.idCategory)
-        res.json(sum)
     })
     .get('/:id', async (req, res) => {
         const payment = await PaymentRecord.getOnePayment(req.params.id);
@@ -20,6 +15,32 @@ paymentRouter
         }
         res.json(payment);
     })
+    .get('/sum/:idCategory', async(req, res)=> {
+        const categorySum = await PaymentRecord.sumOneCategory(req.params.idCategory)
+        res.json(categorySum)
+    })
+    .get('/sum/month/:idCategory/:month', async(req, res)=> {
+        const sumOneCategoryInMonth = await PaymentRecord.sumOneCategoryInOneMonth(req.params.idCategory, Number(req.params.month))
+        res.json(sumOneCategoryInMonth)
+    })
+    .get('/sum/all/:month', async(req, res)=> {
+        const sumAllCategoriesInMonth = await PaymentRecord.sumAllCategoriesInOneMonth( Number(req.params.month))
+        res.json(sumAllCategoriesInMonth)
+    })
+    .get('/sum/country/:idCategory/:idPlace', async(req, res)=> {
+        const sumOneCategoryInCountry = await PaymentRecord.sumOneCategoryInOneCountry(req.params.idCategory, req.params.idPlace)
+        res.json(sumOneCategoryInCountry)
+    })
+    .get('/sum/all/categories/:idPlace', async(req, res)=> {
+        const sumAllCategoriesInOneCountry = await PaymentRecord.sumAllCategoriesInOneCountry(req.params.idPlace)
+        res.json(sumAllCategoriesInOneCountry)
+    })
+    .get('/sum/year/:year', async(req, res)=> {
+        const sumAllCategoriesInOneYear = await PaymentRecord.sumAllCategoriesInOneYear(Number(req.params.year))
+        res.json(sumAllCategoriesInOneYear)
+    })
+
+
     .post('/', async (req,res) => {
         const data = {
             ...req.body,

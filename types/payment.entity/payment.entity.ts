@@ -5,4 +5,10 @@ export interface PaymentEntity {
     boughtAt: string;
     idPlace: string;
     idCategory: string;
+    sumOneCategory: number;
+    sumOneCategoryInOneCountry: number;
+    sumAllCategoriesInOneCountry:number;
+    sumOneCategoryInOneMonth: number;
+    sumAllCategoriesInOneMonth:number;
+    sumInYear: number;
 }

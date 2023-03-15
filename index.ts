@@ -6,7 +6,7 @@ import rateLimit from 'express-rate-limit';
 import {handleError} from "./utils/errors";
 import {paymentRouter} from "./routers/payment.router";
 import {categoryRouter} from "./routers/category.router";
-import {placeRouter} from "./routers/place.router";
+import {countryRouter} from "./routers/country.router";
 import {loginRouter} from "./routers/login.router";
 
 const app = express();
@@ -22,7 +22,7 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use('/payment', paymentRouter)
 app.use('/category', categoryRouter)
-app.use('/place', placeRouter)
+app.use('/country', countryRouter)
 app.use('/login', loginRouter)
 app.use(handleError);
 

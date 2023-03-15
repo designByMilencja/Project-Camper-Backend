@@ -6,7 +6,7 @@ export const categoryRouter = Router();
 categoryRouter
 
     .get('/', async (req, res) => {
-        const categoriesList = await CategoryRecord.getAllCategories();
+        const categoriesList = await CategoryRecord.getListOfCategories();
         res.json(categoriesList);
     })
     .get('/:id', async (req, res) => {
