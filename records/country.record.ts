@@ -35,7 +35,7 @@ export class CountryRecord implements CountryEntity {
         }
         await pool.execute('INSERT INTO `countries` VALUES (:id, :name, :currency)', {
             id:this.id,
-            name:this.name,
+            name:this.name.toUpperCase(),
             currency:this.currency,
         });
         return this.id;
