@@ -6,7 +6,7 @@
     "target": "ES6",
     "downlevelIteration": true,
     "module": "CommonJS",
-    "lib": ["ES6"],
+    "lib": ["ES6", "DOM"],
     "outDir": "dist",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

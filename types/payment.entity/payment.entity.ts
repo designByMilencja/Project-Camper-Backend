@@ -3,7 +3,7 @@ export interface PaymentEntity {
     cost:number;
     currency: string;
     boughtAt: string;
-    idPlace: string;
+    idCountry: string;
     idCategory: string;
     sumOneCategory: number;
     sumOneCategoryInOneCountry: number;

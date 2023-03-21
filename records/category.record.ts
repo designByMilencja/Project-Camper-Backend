@@ -31,7 +31,7 @@ export class CategoryRecord implements CategoryEntity {
         }
         await pool.execute('INSERT INTO `categories` VALUES (:id, :name)', {
             id: this.id,
-            name:this.name,
+            name:this.name.toUpperCase(),
         })
         return this.id;
     }

@@ -3,6 +3,7 @@ import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {v4 as uuid} from "uuid";
+import {currencyConverterToPLN} from "../utils/converter";
 
 type PaymentRecordResult = [PaymentEntity[], FieldPacket[]];
 
@@ -12,7 +13,7 @@ export class PaymentRecord implements PaymentEntity {
     currency: string;
     boughtAt: string;
     idCategory: string;
-    idPlace: string;
+    idCountry: string;
     sumOneCategory: number;
     sumOneCategoryInOneCountry: number;
     sumAllCategoriesInOneCountry: number;
@@ -27,7 +28,7 @@ export class PaymentRecord implements PaymentEntity {
             currency,
             boughtAt,
             idCategory,
-            idPlace,
+            idCountry,
             sumOneCategory,
             sumOneCategoryInOneCountry,
             sumAllCategoriesInOneCountry,
@@ -40,7 +41,7 @@ export class PaymentRecord implements PaymentEntity {
         this.currency = currency;
         this.boughtAt = boughtAt;
         this.idCategory = idCategory;
-        this.idPlace = idPlace;
+        this.idCountry = idCountry;
         this.sumOneCategory = sumOneCategory;
         this.sumOneCategoryInOneCountry = sumOneCategoryInOneCountry;
         this.sumAllCategoriesInOneCountry = sumAllCategoriesInOneCountry;
@@ -66,8 +67,8 @@ export class PaymentRecord implements PaymentEntity {
         if (!idCategory || idCategory === '') {
             throw new ValidationError('Musisz wybrać nazwę kategorii Twojej płatności')
         }
-        if (!idPlace || idPlace === '') {
-            throw new ValidationError('Musisz wybrać miejsce, w zrealizowania płatności')
+        if (!idCountry || idCountry === '') {
+            throw new ValidationError('Musisz wybrać miejsce, w celu zrealizowania płatności')
         }
     }
 
@@ -77,13 +78,21 @@ export class PaymentRecord implements PaymentEntity {
         } else {
             throw new Error('Cannot insert sth that is already added!');
         }
-        await pool.execute('INSERT INTO `payments` VALUES (:id, :cost, :currency, :boughtAt, :idPlace, :idCategory)',
+        if(this.currency !== 'PLN') {
+           const averageRate = await currencyConverterToPLN(this.currency, this.boughtAt);
+           this.cost = this.cost * averageRate;
+           this.currency = 'PLN'
+           if(isNaN(this.cost)) {
+               throw new ValidationError("Przykro mi ale podana waluta jest błędna, wprowadź poprawna walute lub koszt przeliczony na PLN")
+           }
+        }
+        await pool.execute('INSERT INTO `payments` VALUES (:id, :cost, :currency, :boughtAt, :idCountry, :idCategory)',
             {
                 id: this.id,
                 cost: this.cost,
                 currency: this.currency,
                 boughtAt: this.boughtAt,
-                idPlace: this.idPlace,
+                idCountry: this.idCountry,
                 idCategory: this.idCategory,
             })
         return this.id;
@@ -95,12 +104,10 @@ export class PaymentRecord implements PaymentEntity {
         }) as PaymentRecordResult;
         return results.length === 0 ? null : new PaymentRecord(results[0]);
     }
-
     static async getListOfPayments(): Promise<PaymentEntity[]> {
         const [results] = await pool.execute('SELECT * FROM `payments`') as PaymentRecordResult;
         return results.map(obj => new PaymentRecord(obj))
     }
-
     static async sumOneCategory(idCategory: string): Promise<number> {
         const [[{sumOneCategory}]] = await pool.execute('SELECT SUM(`cost`) AS `sumOneCategory` FROM `payments` WHERE `idCategory`= :idCategory',
             {
