@@ -3,8 +3,7 @@ import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {v4 as uuid} from "uuid";
-import {currencyConverterToPLN} from "../utils/converter";
-
+import {converterToPLN} from "../utils/converter";
 type PaymentRecordResult = [PaymentEntity[], FieldPacket[]];
 
 export class PaymentRecord implements PaymentEntity {
@@ -78,13 +77,13 @@ export class PaymentRecord implements PaymentEntity {
         } else {
             throw new Error('Cannot insert sth that is already added!');
         }
-        if(this.currency !== 'PLN') {
-           const averageRate = await currencyConverterToPLN(this.currency, this.boughtAt);
-           this.cost = this.cost * averageRate;
-           this.currency = 'PLN'
-           if(isNaN(this.cost)) {
-               throw new ValidationError("Przykro mi ale podana waluta jest błędna, wprowadź poprawna walute lub koszt przeliczony na PLN")
-           }
+        if (this.currency !== 'PLN') {
+            const averageRate = await converterToPLN(this.currency, this.boughtAt);
+            this.cost = this.cost * averageRate;
+            this.currency = 'PLN'
+            if (isNaN(this.cost)) {
+                throw new ValidationError("Przykro mi ale podana waluta jest błędna, wprowadź poprawna walute lub koszt przeliczony na PLN")
+            }
         }
         await pool.execute('INSERT INTO `payments` VALUES (:id, :cost, :currency, :boughtAt, :idCountry, :idCategory)',
             {
@@ -104,10 +103,12 @@ export class PaymentRecord implements PaymentEntity {
         }) as PaymentRecordResult;
         return results.length === 0 ? null : new PaymentRecord(results[0]);
     }
+
     static async getListOfPayments(): Promise<PaymentEntity[]> {
         const [results] = await pool.execute('SELECT * FROM `payments`') as PaymentRecordResult;
         return results.map(obj => new PaymentRecord(obj))
     }
+
     static async sumOneCategory(idCategory: string): Promise<number> {
         const [[{sumOneCategory}]] = await pool.execute('SELECT SUM(`cost`) AS `sumOneCategory` FROM `payments` WHERE `idCategory`= :idCategory',
             {
@@ -116,17 +117,17 @@ export class PaymentRecord implements PaymentEntity {
         return sumOneCategory
     }
 
-    static async sumOneCategoryInOneCountry(idCategory: string, idPlace: string): Promise<number> {
-        const [[{sumOneCategoryInOneCountry}]] = await pool.execute('SELECT SUM(`cost`) AS `sumOneCategoryInOneCountry` FROM `payments` WHERE `idCategory`= :idCategory AND `idPlace`= :idPlace', {
+    static async sumOneCategoryInOneCountry(idCategory: string, idCountry: string): Promise<number> {
+        const [[{sumOneCategoryInOneCountry}]] = await pool.execute('SELECT SUM(`cost`) AS `sumOneCategoryInOneCountry` FROM `payments` WHERE `idCategory`= :idCategory AND `idCountry`= :idCountry', {
             idCategory,
-            idPlace,
+            idCountry,
         }) as PaymentRecordResult;
         return sumOneCategoryInOneCountry
     }
 
-    static async sumAllCategoriesInOneCountry(idPlace: string): Promise<number> {
-        const [[{sumAllCategoriesInOneCountry}]] = await pool.execute('SELECT SUM(`cost`) AS `sumAllCategoriesInOneCountry` FROM `payments` WHERE `idPlace`= :idPlace', {
-            idPlace
+    static async sumAllCategoriesInOneCountry(idCountry: string): Promise<number> {
+        const [[{sumAllCategoriesInOneCountry}]] = await pool.execute('SELECT SUM(`cost`) AS `sumAllCategoriesInOneCountry` FROM `payments` WHERE `idCountry`= :idCountry', {
+            idCountry
         }) as PaymentRecordResult;
         return sumAllCategoriesInOneCountry
     }

@@ -1,6 +1,6 @@
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
-import {MonthEntity} from "../types/month.entity";
+import {MonthEntity} from "../types";
 
 type MonthRecordResult = [MonthEntity[], FieldPacket[]];
 
@@ -17,14 +17,14 @@ export class MonthRecord implements MonthEntity {
     }
 
     static async getOneMonth(id: string): Promise<MonthRecord> {
-        const [results] = await pool.execute('SELECT `name`, `number` FROM `months` WHERE `id`= :id', {
+        const [results] = await pool.execute('SELECT `name` FROM `months` WHERE `id`= :id', {
             id
         }) as MonthRecordResult;
         return results.length === 0 ? null : new MonthRecord(results[0]);
     }
 
     static async getListOfMonths(): Promise<MonthRecord[]> {
-        const [results] = await pool.execute('SELECT `name`, `number` FROM `months`') as MonthRecordResult;
+        const [results] = await pool.execute('SELECT * FROM `months`') as MonthRecordResult;
         return results.map(obj => new MonthRecord(obj))
     }
 }
