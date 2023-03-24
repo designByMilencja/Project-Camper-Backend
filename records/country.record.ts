@@ -3,7 +3,7 @@ import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
-
+import {currencySymbols} from "../utils/currencySymbols";
 type CountryRecordResult = [CountryEntity[], FieldPacket[]];
 
 export class CountryRecord implements CountryEntity {
@@ -20,7 +20,10 @@ export class CountryRecord implements CountryEntity {
             throw new ValidationError('Wpisz nazwę kraju, który chcesz dodać.')
         }
         if (name.length > 60) {
-            throw new ValidationError('Nazwa mkraju, nie może przekraczać 60 znaków.')
+            throw new ValidationError('Nazwa kraju, nie może przekraczać 60 znaków.')
+        }
+        if (name.length < 5) {
+            throw new ValidationError('Nazwa kraju, nie może być krótsza niż 5 znaków.')
         }
         if (!currency || currency === '') {
             throw new ValidationError('Wybierz walutę, która obowiązuje w wybranym kraju.')
@@ -33,10 +36,16 @@ export class CountryRecord implements CountryEntity {
         } else {
             throw new Error('Cannot insert sth that is already added!');
         }
+        const availableCurrency = await currencySymbols();
+        console.log(availableCurrency)
+        if (typeof this.currency === "undefined" || !availableCurrency.includes(this.currency.toUpperCase())) {
+            console.log(this.currency)
+            throw new ValidationError('Przepraszamy nie dysponujemy przelicznikiem dla tej waluty, proponujemy wpisanie USD lub EUR')
+        }
         await pool.execute('INSERT INTO `countries` VALUES (:id, :name, :currency)', {
             id:this.id,
             name:this.name.toUpperCase(),
-            currency:this.currency,
+            currency:this.currency.toUpperCase(),
         });
         return this.id;
     }
@@ -61,7 +70,11 @@ export class CountryRecord implements CountryEntity {
     }
 
     static async getListOfCountries(): Promise<CountryEntity[]> {
-        const [results] = await pool.execute('SELECT * FROM `places`') as CountryRecordResult;
+        const [results] = await pool.execute('SELECT * FROM `countries`') as CountryRecordResult;
         return results.map(obj => new CountryRecord(obj));
+    }
+    static async getNamesOfCountries(): Promise<CountryRecord[]> {
+        const [results] = await pool.execute('SELECT `name` FROM `countries`') as CountryRecordResult;
+        return results.map(obj => new CountryRecord(obj))
     }
 }

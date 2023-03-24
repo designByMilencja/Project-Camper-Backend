@@ -1,5 +1,4 @@
-export const currencyConverterToPLN = async (currencyCode: string, date: string): Promise<number> => {
-
+export const converterToPLN = async (currencyCode: string, date: string): Promise<number> => {
     try {
         const url = `https://api.nbp.pl/api/exchangerates/rates/A/${currencyCode}/${date}`
         const res = await fetch(url)
@@ -10,11 +9,3 @@ export const currencyConverterToPLN = async (currencyCode: string, date: string)
         console.error(err)
     }
 }
-
-// {
-//     "table":"A",
-//     "currency":"funt szterling",
-//     "code":"GBP",
-//     "rates":
-//     [{"no": "1/A/NBP/2012", "effectiveDate": "2012-01-02", "mid": 5.3480}]
-// }

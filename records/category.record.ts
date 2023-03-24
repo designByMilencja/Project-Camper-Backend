@@ -21,6 +21,9 @@ export class CategoryRecord implements CategoryEntity {
         if (name.length > 57) {
             throw new ValidationError('Nazwa kategorii, nie może być dłuższa niż 50 znaków.')
         }
+        if (name.length < 5) {
+            throw new ValidationError('Nazwa kategorii, nie może być krótsza niż 5 znaków.')
+        }
     }
 
     async insertCategory(): Promise<string> {
@@ -55,6 +58,10 @@ export class CategoryRecord implements CategoryEntity {
 
     static async getListOfCategories(): Promise<CategoryRecord[]> {
         const [results] = await pool.execute('SELECT * FROM `categories`') as CategoryRecordResult;
+        return results.map(obj => new CategoryRecord(obj))
+    }
+    static async getNamesOfCategories(): Promise<CategoryRecord[]> {
+        const [results] = await pool.execute('SELECT `name` FROM `categories`') as CategoryRecordResult;
         return results.map(obj => new CategoryRecord(obj))
     }
 }
