@@ -49,7 +49,6 @@ paymentRouter
     .post('/', async (req, res) => {
         const data = {
             ...req.body,
-            name: (req.body.name).toUpperCase(),
             cost: Number(req.body.cost)
         }
         console.log(data)

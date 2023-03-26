@@ -3,7 +3,7 @@ import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {v4 as uuid} from "uuid";
-import {converterToPLN} from "../utils/converter";
+import {converterToPLN} from "../utils/convertertoPLN";
 type PaymentRecordResult = [PaymentEntity[], FieldPacket[]];
 
 export class PaymentRecord implements PaymentEntity {
@@ -59,9 +59,6 @@ export class PaymentRecord implements PaymentEntity {
         }
         if (!boughtAt || boughtAt === '') {
             throw new ValidationError('Musisz wybrać datę płatności, by dokończyć proces dodawania.')
-        }
-        if (boughtAt > new Date().toDateString()) {
-            throw new ValidationError('Nie możesz wybrać daty z przyszłości')
         }
         if (!idCategory || idCategory === '') {
             throw new ValidationError('Musisz wybrać nazwę kategorii Twojej płatności')

@@ -1,7 +1,6 @@
 import {Router} from "express";
 import {CountryRecord} from "../records/country.record";
 import {ValidationError} from "../utils/errors";
-import {CategoryRecord} from "../records/category.record";
 
 export const countryRouter = Router();
 countryRouter
@@ -9,10 +8,6 @@ countryRouter
     .get('/', async (req, res) => {
         const countryList = await CountryRecord.getListOfCountries();
         res.json(countryList);
-    })
-    .get('/names', async (req, res) => {
-        const countriesNamesList = await CountryRecord.getNamesOfCountries();
-        res.json(countriesNamesList);
     })
     .get('/:id', async (req, res) => {
         const country = await CountryRecord.getOneCountry(req.params.id);
@@ -22,13 +17,13 @@ countryRouter
         res.json(country);
     })
     .post('/', async (req, res) => {
-        const countriesList = await CategoryRecord.getNamesOfCategories();
+        const countriesList = await CountryRecord.getListOfCountries();
+        console.log(countriesList)
         const names = countriesList.map(country => country.name)
         if (names.includes(req.body.name.toUpperCase())) {
-            throw new ValidationError('Podany kraj istnieje, przejdż do dodawania płatności')
-        }
+            throw new ValidationError('Kraj istnieje już w bazie danych')
+        } else
         {
-
             const newCountry = new CountryRecord({
                 ...req.body,
                 name: (req.body.name).toUpperCase(),
