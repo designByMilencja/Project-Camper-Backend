@@ -13,8 +13,7 @@ import {monthRouter} from "./routers/month.router";
 const app = express();
 app.use(json());
 app.use(cors({
-    origin: 'http://localhost:3000',
-}));
+    origin: 'http://localhost:3000'}));
 
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 15 minutes
