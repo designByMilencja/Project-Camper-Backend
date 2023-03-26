@@ -37,10 +37,9 @@ export class CountryRecord implements CountryEntity {
             throw new Error('Cannot insert sth that is already added!');
         }
         const availableCurrency = await currencySymbols();
-        console.log(availableCurrency)
         if (typeof this.currency === "undefined" || !availableCurrency.includes(this.currency.toUpperCase())) {
             console.log(this.currency)
-            throw new ValidationError('Przepraszamy nie dysponujemy przelicznikiem dla tej waluty, proponujemy wpisanie USD lub EUR')
+            throw new Error('Przepraszamy nie dysponujemy przelicznikiem dla tej waluty, proponujemy wpisanie USD lub EUR')
         }
         await pool.execute('INSERT INTO `countries` VALUES (:id, :name, :currency)', {
             id:this.id,
@@ -73,8 +72,6 @@ export class CountryRecord implements CountryEntity {
         const [results] = await pool.execute('SELECT * FROM `countries`') as CountryRecordResult;
         return results.map(obj => new CountryRecord(obj));
     }
-    static async getNamesOfCountries(): Promise<CountryRecord[]> {
-        const [results] = await pool.execute('SELECT `name` FROM `countries`') as CountryRecordResult;
-        return results.map(obj => new CountryRecord(obj))
-    }
+
+
 }
