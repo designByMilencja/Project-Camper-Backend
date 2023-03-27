@@ -36,7 +36,7 @@ categoryRouter
             res.json(newCategory)
         }
     })
-    .patch('/id/:id', async (req, res) => {
+    .patch('/:id', async (req, res) => {
         const category = await CategoryRecord.getOneCategory(req.params.id);
         if (category === null) {
             throw new ValidationError('Nie znaleziono kategorii o tym ID')
@@ -44,7 +44,7 @@ categoryRouter
         await category.updateCategory(req.body.name)
         res.json({ok: true})
     })
-    .delete('/id/:id', async (req, res) => {
+    .delete('/:id', async (req, res) => {
         const foundToDelete = await CategoryRecord.getOneCategory(req.params.id);
         await foundToDelete.deleteCategory(req.params.id);
         res.json({ok: true})

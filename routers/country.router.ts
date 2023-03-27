@@ -32,7 +32,7 @@ countryRouter
             res.json(newCountry)
         }
     })
-    .patch('/id/:id', async (req, res) => {
+    .patch('/:id', async (req, res) => {
         const country = await CountryRecord.getOneCountry(req.params.id);
         if (country === null) {
             throw new ValidationError('Nie znaleziono kraju o tym ID')
@@ -40,7 +40,7 @@ countryRouter
         await country.updateCountry(req.body.name, req.body.currency)
         res.json({ok: true})
     })
-    .delete('/id/:id', async (req, res) => {
+    .delete('/:id', async (req, res) => {
         const country = await CountryRecord.getOneCountry(req.params.id);
         await country.deleteCountry(req.params.id);
         res.json({ok: true})
