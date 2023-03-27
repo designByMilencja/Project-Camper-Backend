@@ -28,7 +28,7 @@ paymentRouter
         const sumOneCategoryInMonth = await PaymentRecord.sumOneCategoryInOneMonth(req.params.idCategory, Number(req.params.month))
         res.json(sumOneCategoryInMonth)
     })
-    .get('/sum/all/:month', async (req, res) => {
+    .get('/sum/all/months/:month', async (req, res) => {
         const sumAllCategoriesInMonth = await PaymentRecord.sumAllCategoriesInOneMonth(Number(req.params.month))
         res.json(sumAllCategoriesInMonth)
     })
