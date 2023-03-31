@@ -3,7 +3,7 @@ import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {v4 as uuid} from "uuid";
-import {converterToPLN} from "../utils/convertertoPLN";
+import {convertToPLN} from "../utils/convertToPLN";
 type PaymentRecordResult = [PaymentEntity[], FieldPacket[]];
 
 export class PaymentRecord implements PaymentEntity {
@@ -72,10 +72,10 @@ export class PaymentRecord implements PaymentEntity {
         if (!this.id) {
             this.id = uuid();
         } else {
-            throw new Error('Cannot insert sth that is already added!');
+            throw new ValidationError('Cannot insert sth that is already added!');
         }
         if (this.currency !== 'PLN') {
-            const averageRate = await converterToPLN(this.currency, this.boughtAt);
+            const averageRate = await convertToPLN(this.currency, this.boughtAt);
             this.cost = this.cost * averageRate;
             this.currency = 'PLN'
             if (isNaN(this.cost)) {

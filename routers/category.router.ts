@@ -1,8 +1,10 @@
 import {Router} from "express";
 import {CategoryRecord} from "../records/category.record";
 import {ValidationError} from "../utils/errors";
+import {verifyToken} from "../utils/verifyToken";
 
 export const categoryRouter = Router();
+
 categoryRouter
 
     .get('/', async (req, res) => {
@@ -20,7 +22,7 @@ categoryRouter
         }
         res.json(category);
     })
-    .post('/', async (req, res) => {
+    .post('/', verifyToken, async (req, res) => {
         console.log(req.body)
         const categoriesList = await CategoryRecord.getNamesOfCategories();
         const names = categoriesList.map(category => category.name)

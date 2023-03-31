@@ -1,11 +1,26 @@
 import {Router} from "express";
+import bcrypt from "bcrypt";
+import {RegistrationRecord} from "../records/registration.record";
+import {CustomSession} from "../types/express.session/express.session";
+import jwt from 'jsonwebtoken';
+import {secret} from "../utils/db";
 
 export const loginRouter = Router();
 loginRouter
-    //
-    // .get('/', async (req, res) => {
-    //
-    // })
-    // .post('/', (req,res)=> {
-    //     console.log(req.body)
-    // })
+
+    .post('/', async (req, res) => {
+        const {login, password} = req.body;
+        const user = await RegistrationRecord.getUser(login);
+        if (!user) {
+            return res.status(401).json({message: 'Nieprawidłowy login lub hasło'});
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({message: 'Nieprawidłowy login lub hasło'});
+        } else {
+            const token = jwt.sign({id: user.userId}, secret, {expiresIn: '1h'});
+            (req.session as CustomSession).token = token;
+            res.json({token});
+            console.log('token', token)
+        }
+    })
