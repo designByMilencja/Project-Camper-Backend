@@ -9,24 +9,34 @@ import {categoryRouter} from "./routers/category.router";
 import {countryRouter} from "./routers/country.router";
 import {loginRouter} from "./routers/login.router";
 import {monthRouter} from "./routers/month.router";
+import {registrationRouter} from "./routers/registration.router";
+import session from "express-session";
+import {secret} from "./utils/db";
 
 const app = express();
 app.use(json());
 app.use(cors({
-    origin: 'http://localhost:3000'}));
-
+    origin: 'http://localhost:3000'
+}));
+app.use(session({
+    secret: secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+}));
 const limiter = rateLimit({
-    windowMs: 10 * 60 * 1000, // 15 minutes
-    max: 10000, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    windowMs: 10 * 60 * 1000,
+    max: 10000,
 });
 app.use(limiter);
-app.use('/payment', paymentRouter)
-app.use('/category', categoryRouter)
-app.use('/country', countryRouter)
-app.use('/login', loginRouter)
-app.use('/month', monthRouter)
+app.use('/category', categoryRouter);
+app.use('/country', countryRouter);
+app.use('/payment', paymentRouter);
+app.use('/month', monthRouter);
+app.use('/login', loginRouter);
+app.use('/registration', registrationRouter);
 app.use(handleError);
 
-app.listen(3001, '0.0.0.0', ()=> {
-    console.log('Listening on http://localhost:3001')
+app.listen(3001, '0.0.0.0', () => {
+    console.log('Listening on http://localhost:3001');
 })

@@ -21,7 +21,7 @@ export class CategoryRecord implements CategoryEntity {
         if (name.length > 57) {
             throw new ValidationError('Nazwa kategorii, nie może być dłuższa niż 50 znaków.')
         }
-        if (name.length < 5) {
+        if (name.length < 4) {
             throw new ValidationError('Nazwa kategorii, nie może być krótsza niż 5 znaków.')
         }
     }
@@ -30,7 +30,7 @@ export class CategoryRecord implements CategoryEntity {
         if (!this.id) {
             this.id = uuid();
         } else {
-            throw new Error('Cannot insert sth that is already added!');
+            throw new ValidationError('Cannot insert sth that is already added!');
         }
         await pool.execute('INSERT INTO `categories` VALUES (:id, :name)', {
             id: this.id,

@@ -8,3 +8,6 @@ export const pool = createPool({
     namedPlaceholders: true,
     decimalNumbers:true,
 })
+import crypto from 'crypto';
+export const secret = crypto.randomBytes(32).toString('hex');
+
