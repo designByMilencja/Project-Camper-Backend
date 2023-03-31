@@ -10,7 +10,7 @@ monthRouter
     })
     .get('/:id', async (req, res) => {
         const month = await MonthRecord.getOneMonth(req.params.id);
-        if (month === null) {
+        if (!month) {
             throw new ValidationError('Niestety miesiąc o podanym id nie istnieje')
         }
         res.json(month);
