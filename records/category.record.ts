@@ -22,7 +22,7 @@ export class CategoryRecord implements CategoryEntity {
             throw new ValidationError('Nazwa kategorii, nie może być dłuższa niż 50 znaków.')
         }
         if (name.length < 4) {
-            throw new ValidationError('Nazwa kategorii, nie może być krótsza niż 5 znaków.')
+            throw new ValidationError('Nazwa kategorii, nie może być krótsza niż 4 znaki.')
         }
     }
 
