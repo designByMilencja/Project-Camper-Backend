@@ -1,4 +1,4 @@
-export const converterToPLN = async (currencyCode: string, date: string): Promise<number> => {
+export const convertToPLN = async (currencyCode: string, date: string): Promise<number> => {
     try {
         const url = `https://api.nbp.pl/api/exchangerates/rates/A/${currencyCode}/${date}`
         const res = await fetch(url)
