@@ -1,11 +1,11 @@
 import {CategoryRecord} from "../records/category.record";
 const defaultObj = {
-    name: 'elo',
+    name: 'owoce',
 }
 
 test('Can create CategoryRecord?', () => {
     const category = new CategoryRecord(defaultObj);
-    expect(category.name).toBe('serwis');
+    expect(category.name).toBe('owoce');
 });
 test('Validates invalid name', () => {
     expect(() => new CategoryRecord({
