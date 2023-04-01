@@ -2,6 +2,7 @@ import {Router, Request, Response} from "express";
 import {PaymentRecord} from "../records/payment.record";
 import {ValidationError} from "../utils/errors";
 import {MonthRecord} from "../records/month.record";
+import {verifyToken} from "../utils/verifyToken";
 export const paymentRouter = Router();
 paymentRouter
 
@@ -46,7 +47,7 @@ paymentRouter
     })
 
 
-    .post('/', async (req:Request, res:Response) => {
+    .post('/', verifyToken, async (req:Request, res:Response) => {
         const data = {
             ...req.body,
             cost: Number(req.body.cost)
