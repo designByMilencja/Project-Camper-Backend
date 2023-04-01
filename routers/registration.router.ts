@@ -1,16 +1,15 @@
-import {Router} from "express";
+import {Request, Response, Router} from "express";
 import {RegistrationRecord} from "../records/registration.record";
 import bcrypt from "bcrypt";
 
 export const registrationRouter = Router();
 registrationRouter
 
-    .post('/', async (req, res) => {
-        console.log(req.body)
+    .post('/', async (req: Request, res:Response) => {
         const saltRounds = 10;
         bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
             if (err) {
-             throw new Error('błąd serwera')
+                throw new Error('błąd serwera')
             } else {
                 {
                     const newUser = new RegistrationRecord({

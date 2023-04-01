@@ -1,6 +1,7 @@
 import {Router} from "express";
 import {CountryRecord} from "../records/country.record";
 import {ValidationError} from "../utils/errors";
+import {verifyToken} from "../utils/verifyToken";
 
 export const countryRouter = Router();
 countryRouter
@@ -16,7 +17,7 @@ countryRouter
         }
         res.json(country);
     })
-    .post('/', async (req, res) => {
+    .post('/', verifyToken, async (req, res) => {
         const countriesList = await CountryRecord.getListOfCountries();
         console.log(countriesList)
         const names = countriesList.map(country => country.name)

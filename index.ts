@@ -24,6 +24,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false },
 }));
+
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000,
     max: 10000,
