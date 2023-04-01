@@ -16,7 +16,7 @@ export class MonthRecord implements MonthEntity {
         this.number = number;
     }
 
-    static async getOneMonth(id: string): Promise<MonthRecord> {
+    static async getOneMonth(id: string): Promise<MonthRecord | null> {
         const [results] = await pool.execute('SELECT `name` FROM `months` WHERE `id`= :id', {
             id
         }) as MonthRecordResult;
@@ -26,5 +26,9 @@ export class MonthRecord implements MonthEntity {
     static async getListOfMonths(): Promise<MonthRecord[]> {
         const [results] = await pool.execute('SELECT * FROM `months`') as MonthRecordResult;
         return results.map(obj => new MonthRecord(obj))
+    }
+    static async getListOfMonthsNumbers(): Promise<number[]> {
+        const [results] = await pool.execute('SELECT `number` FROM `months`') as MonthRecordResult;
+        return results.map(obj => obj.number);
     }
 }
