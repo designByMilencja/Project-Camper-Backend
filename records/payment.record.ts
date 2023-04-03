@@ -4,6 +4,7 @@ import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {v4 as uuid} from "uuid";
 import {convertToPLN} from "../utils/convertToPLN";
+
 type PaymentRecordResult = [PaymentEntity[], FieldPacket[]];
 
 export class PaymentRecord implements PaymentEntity {
@@ -75,9 +76,20 @@ export class PaymentRecord implements PaymentEntity {
             throw new ValidationError('Cannot insert sth that is already added!');
         }
         if (this.currency !== 'PLN') {
-            const averageRate = await convertToPLN(this.currency, this.boughtAt);
+            let averageRate = await convertToPLN(this.currency, this.boughtAt);
+            if (averageRate === undefined) {
+                try {
+                    const url = `https://api.nbp.pl/api/exchangerates/rates/A/${this.currency}/2023-01-01/${this.boughtAt}`
+                    const res = await fetch(url);
+                    const {rates} = await res.json();
+                    const exchangeRate = rates[0].mid;
+                    averageRate = exchangeRate.toFixed(2);
+                } catch (err) {
+                    console.error(err)
+                }
+            }
             this.cost = this.cost * averageRate;
-            this.currency = 'PLN'
+            this.currency = 'PLN';
             if (isNaN(this.cost)) {
                 throw new ValidationError("Przykro mi ale podana waluta jest błędna, wprowadź poprawna walute lub koszt przeliczony na PLN")
             }
