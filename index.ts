@@ -12,8 +12,10 @@ import {monthRouter} from "./routers/month.router";
 import {registrationRouter} from "./routers/registration.router";
 import session from "express-session";
 import {secret} from "./utils/db";
+import helmet from "helmet";
 
 const app = express();
+app.use(helmet());
 app.use(json());
 app.use(cors({
     origin: 'http://localhost:3000'
