@@ -22,7 +22,7 @@ export class RegistrationRecord implements RegistrationEntity {
         if (!name || name === '') {
             throw new ValidationError('Wpisz imię, aby się zalogować.');
         }
-        if (name.length > 50 || name.length < 5) {
+        if (name.length > 50 || name.length < 3) {
             throw new ValidationError('Imię musi zawierać od 3 do 50 znaków.');
         }
         if (!email || email === '') {

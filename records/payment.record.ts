@@ -12,8 +12,8 @@ export class PaymentRecord implements PaymentEntity {
     cost: number;
     currency: string;
     boughtAt: string;
-    idCategory: string;
     idCountry: string;
+    idCategory: string;
     sumOneCategory: number;
     sumOneCategoryInOneCountry: number;
     sumAllCategoriesInOneCountry: number;
@@ -27,8 +27,8 @@ export class PaymentRecord implements PaymentEntity {
             cost,
             currency,
             boughtAt,
-            idCategory,
             idCountry,
+            idCategory,
             sumOneCategory,
             sumOneCategoryInOneCountry,
             sumAllCategoriesInOneCountry,
@@ -40,8 +40,8 @@ export class PaymentRecord implements PaymentEntity {
         this.cost = cost;
         this.currency = currency;
         this.boughtAt = boughtAt;
-        this.idCategory = idCategory;
         this.idCountry = idCountry;
+        this.idCategory = idCategory;
         this.sumOneCategory = sumOneCategory;
         this.sumOneCategoryInOneCountry = sumOneCategoryInOneCountry;
         this.sumAllCategoriesInOneCountry = sumAllCategoriesInOneCountry;
@@ -104,6 +104,24 @@ export class PaymentRecord implements PaymentEntity {
                 idCategory: this.idCategory,
             })
         return this.id;
+    };
+
+    async deletePayment(id: string): Promise<void> {
+        await pool.execute('DELETE FROM `payments` WHERE `id`=:id', {
+            id,
+        })
+    }
+
+    async updatePayment(paymentData:PaymentEntity): Promise<void> {
+        const {cost, currency, boughtAt, idCountry, idCategory} = paymentData;
+        await pool.execute('UPDATE `payments` SET `cost`=:cost, `currency`=:currency, `boughtAt`= :boughtAt, `idCountry`=:idCountry, `idCategory` = :idCategory  WHERE `id`= :id', {
+            id: this.id,
+            cost,
+            currency,
+            boughtAt,
+            idCountry,
+            idCategory,
+        });
     };
 
     static async getOnePayment(id: string): Promise<PaymentEntity> {

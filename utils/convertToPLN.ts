@@ -6,6 +6,6 @@ export const convertToPLN = async (currencyCode: string, date: string): Promise<
         const exchangeRate = rates[0].mid;
         return exchangeRate.toFixed(2)
     } catch (err) {
-        console.error(err)
+        throw new Error(`Unable to fetch exchange rate for ${currencyCode} on ${date}`);
     }
 }

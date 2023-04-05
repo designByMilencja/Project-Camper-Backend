@@ -11,10 +11,6 @@ categoryRouter
         const categoriesList = await CategoryRecord.getListOfCategories();
         res.json(categoriesList);
     })
-    .get('/names', async (req:Request, res:Response): Promise<void> => {
-        const categoriesNamesList = await CategoryRecord.getNamesOfCategories();
-        res.json(categoriesNamesList);
-    })
     .get('/:id', async (req:Request, res:Response): Promise<void>=> {
         const category = await CategoryRecord.getOneCategory(req.params.id);
         if (!category) {
@@ -23,7 +19,7 @@ categoryRouter
         res.json(category);
     })
     .post('/', verifyToken, async (req:Request, res:Response): Promise<void> => {
-        const categoriesList = await CategoryRecord.getNamesOfCategories();
+        const categoriesList = await CategoryRecord.getListOfCategories();
         const names = categoriesList.map(category => category.name);
         if (names.includes(req.body.name.toUpperCase())) {
             throw new ValidationError('Podana kategoria istnieje, przejdż do dodawania płatności')
