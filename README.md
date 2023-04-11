@@ -5,14 +5,12 @@ This is my individual project for Mega Kurs. The idea and code is my creation.
 * [Demo and Screenshots](#demo-and-screenshots)
 * [Features](#features)
 * [Technologies used](#technologies-used)
-* [Setup](#setup)
-* [Usage](#usage)
 * [Contact](#contact)
 
 ## General Info
 The main purpose of my application is to record my daily expenses during travelling by camper van. On the basis of costs shown in different countries and over different months, users will be able to plan their travel budget. In the future, I want to make the app available to users so that they can also use it when travelling and collate their expenses
 
-## Demo and Screenshots 📷
+## Demo and Screenshots
 
 ## Features
 - [x] active records are responsible for adding, deleting, updating categories, country and expenses
@@ -26,9 +24,9 @@ The main purpose of my application is to record my daily expenses during travell
 - [ ] list of months designed for the current year, to be extended over a longer period in the future
 
 
-## Technologies Used 🛠
+## Technologies Used
 <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" /> <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white" /><img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" />
 <img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" /> <img src="https://img.shields.io/badge/WebStorm-000000?style=for-the-badge&logo=WebStorm&logoColor=white" />
-## Contact  📨
+## Contact
 Created by desingByMilencja - feel free to contact me!
 designbymilencja@gmail.com
