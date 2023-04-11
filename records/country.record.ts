@@ -44,7 +44,7 @@ export class CountryRecord implements CountryEntity {
     }
     async deleteCountry(id:string): Promise<void> {
         await pool.execute('DELETE FROM `countries` WHERE `id`=:id', {
-            id:this.id
+            id,
         })
     }
     async updateCountry(name: string, currency:string): Promise<void> {
