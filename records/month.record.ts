@@ -1,4 +1,4 @@
-import {pool} from "../utils/db";
+import {pool} from "../utils/config.db";
 import {FieldPacket} from "mysql2";
 import {MonthEntity} from "../types";
 

@@ -1,7 +1,7 @@
 import {RegistrationEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
-import {pool, verificationKey} from "../utils/db";
+import {pool, verificationKey} from "../utils/config.db";
 import {FieldPacket} from "mysql2";
 
 type RegistrationRecordResult = [RegistrationEntity[], FieldPacket[]];

@@ -1,6 +1,6 @@
 import {google} from 'googleapis';
 const nodemailer = require('nodemailer');
-import {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN} from "./db";
+import {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN} from "./config.db";
 
 const oAuth2Client = new google.auth.OAuth2(
     CLIENT_ID,

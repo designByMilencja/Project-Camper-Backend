@@ -1,6 +1,6 @@
 import {PaymentEntity} from "../types";
 import {ValidationError} from "../utils/errors";
-import {pool} from "../utils/db";
+import {pool} from "../utils/config.db";
 import {FieldPacket} from "mysql2";
 import {v4 as uuid} from "uuid";
 import {convertToPLN} from "../utils/convertToPLN";

@@ -1,7 +1,7 @@
 import {CountryRecord} from "../records/country.record";
 import {CountryEntity} from "../types";
 import {ValidationError} from "../utils/errors";
-import {pool} from "../utils/db";
+import {pool} from "../utils/config.db";
 
 afterAll(async () => {
     await pool.end();

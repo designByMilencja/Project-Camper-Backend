@@ -1,7 +1,7 @@
 import {CategoryEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
-import {pool} from "../utils/db";
+import {pool} from "../utils/config.db";
 import {FieldPacket} from "mysql2";
 
 type CategoryRecordResult = [CategoryEntity[], FieldPacket[]];

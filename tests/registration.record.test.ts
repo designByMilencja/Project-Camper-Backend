@@ -1,6 +1,6 @@
 import {RegistrationEntity} from "../types";
 import {RegistrationRecord} from "../records/registration.record";
-import {pool} from "../utils/db";
+import {pool} from "../utils/config.db";
 
 afterAll(async () => {
     await pool.end();

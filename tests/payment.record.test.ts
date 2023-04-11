@@ -1,6 +1,6 @@
 import {PaymentRecord} from "../records/payment.record";
 import {PaymentEntity} from "../types";
-import {pool} from "../utils/db";
+import {pool} from "../utils/config.db";
 
 afterAll(async () => {
     await pool.end();
