@@ -1,7 +1,7 @@
 import {CategoryRecord} from "../records/category.record";
 import {CategoryEntity} from "../types";
 import {ValidationError} from "../utils/errors";
-import {pool} from "../utils/config.db";
+import {pool} from "../utils/db";
 
 afterAll(async ()=> {
     await pool.end();
