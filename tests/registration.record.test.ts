@@ -7,7 +7,7 @@ afterAll(async () => {
 });
 const validValues: RegistrationEntity = {
     emailVerified: false,
-    verificationCode: "",
+    verificationKey: "",
     name: 'Test',
     email: "test@gmail.com",
     login: "testowa",
@@ -39,11 +39,11 @@ test('constructor should throw a ValidationError with invalid data', () => {
     })).toThrowError('Email musi zawierać znak "@".');
 });
 test('getUser returns user of RegistrationRecord objects', async () => {
-    const user = await RegistrationRecord.getUser('acc95639-0a3a-4f59-930f-4fb358670e75');
+    const user = await RegistrationRecord.getUserByLogin('testowa');
     expect(user).toBeDefined();
 });
 test('getUser returns null for invalid id', async () => {
-    const user = await RegistrationRecord.getUser('invalid-id');
+    const user = await RegistrationRecord.getUserByLogin('invalid-login');
     expect(user).toBeNull();
 });
 test('No inserted RegistrationRecord should has no id', async () => {
