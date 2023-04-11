@@ -1,7 +1,7 @@
 import {RegistrationEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
-import {pool, verificationKey} from "../utils/config.db";
+import {pool} from "../utils/config.db";
 import {FieldPacket} from "mysql2";
 
 type RegistrationRecordResult = [RegistrationEntity[], FieldPacket[]];
@@ -16,7 +16,7 @@ export class RegistrationRecord implements RegistrationEntity {
     verificationKey:string | null;
 
     constructor(obj: RegistrationEntity) {
-        const {id, name, email, login, password} = obj;
+        const {id, name, email, login, password, verificationKey} = obj;
         this.id = id;
         this.name = name;
         this.email = email;
@@ -72,7 +72,7 @@ export class RegistrationRecord implements RegistrationEntity {
         return {id: this.id, email: this.email}
     }
 
-    static async getUserByKey(): Promise<RegistrationRecord> {
+    static async getUserByKey(verificationKey:string): Promise<RegistrationRecord> {
         const [results] = await pool.execute('SELECT * FROM `users` WHERE `verificationKey`= :verificationKey', {
             verificationKey,
         }) as RegistrationRecordResult;
@@ -84,6 +84,7 @@ export class RegistrationRecord implements RegistrationEntity {
         }) as RegistrationRecordResult;
         return results.length === 0 ? null : new RegistrationRecord(results[0]);
     }
+
     async updateUser(): Promise<void> {
         await pool.execute('UPDATE `users` SET `emailVerified`=:emailVerified WHERE `email`=:email', {
             emailVerified: this.emailVerified,
