@@ -2,9 +2,12 @@ import {Router, Request, Response} from "express";
 import {CategoryRecord} from "../records/category.record";
 import {ValidationError} from "../utils/errors";
 import {verifyToken} from "../utils/verifyToken";
+import {RegistrationEntity} from "../types";
 
 export const categoryRouter = Router();
-
+interface RequestWithUser extends Request {
+    user: RegistrationEntity;
+}
 categoryRouter
 
     .get('/', async (req:Request, res:Response): Promise<void> => {
@@ -18,7 +21,7 @@ categoryRouter
         }
         res.json(category);
     })
-    .post('/', verifyToken, async (req:Request, res:Response): Promise<void> => {
+    .post('/', verifyToken, async (req:RequestWithUser, res:Response): Promise<void> => {
         const categoriesList = await CategoryRecord.getListOfCategories();
         const names = categoriesList.map(category => category.name);
         if (names.includes(req.body.name.toUpperCase())) {

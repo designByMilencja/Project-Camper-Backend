@@ -1,21 +1,21 @@
 import {CategoryRecord} from "../records/category.record";
-import {AddCategoryEntity} from "../types";
+import {CategoryEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {pool} from "../utils/config.db";
 
 afterAll(async ()=> {
     await pool.end();
 });
-const validValue: AddCategoryEntity = {
+const validValue: CategoryEntity = {
     name: 'owoce',
 };
-const emptyValue: AddCategoryEntity = {
+const emptyValue: CategoryEntity = {
     name: '',
 };
-const tooLongValue: AddCategoryEntity = {
+const tooLongValue: CategoryEntity = {
     name: 'a'.repeat(58)
 };
-const tooShortValue: AddCategoryEntity = {
+const tooShortValue: CategoryEntity = {
     name: 'iks'
 };
 test('CategoryRecord sets object properties correctly?', () => {
