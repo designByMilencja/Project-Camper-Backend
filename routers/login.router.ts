@@ -10,7 +10,7 @@ loginRouter
 
     .post('/', async (req: Request, res:Response) => {
         const {login, password} = req.body;
-        const user = await RegistrationRecord.getUser(login);
+        const user = await RegistrationRecord.getUserByLogin(login);
 
         if (!user) {
             return res.status(401).json({message: 'Nieprawidłowy login lub hasło'});
@@ -19,7 +19,7 @@ loginRouter
         if (!isMatch) {
             return res.status(401).json({message: 'Nieprawidłowy login lub hasło'});
         } else {
-            const token = jwt.sign({id: user.userId}, secret, {expiresIn: '1h'});
+            const token = jwt.sign({id: user.id}, secret, {expiresIn: '1h'});
             (req.session as CustomSession).token = token;
             res.json({token});
         }

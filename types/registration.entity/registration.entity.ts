@@ -1,7 +1,9 @@
 export interface RegistrationEntity {
-    userId:string;
+    id?:string;
     name: string;
     email: string;
     login: string;
     password: string;
+    emailVerified?: boolean;
+    verificationKey?: string | null;
 }

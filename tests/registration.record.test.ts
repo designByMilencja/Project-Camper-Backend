@@ -1,4 +1,4 @@
-import {RegistrationEntity} from "../types/registration.entity";
+import {RegistrationEntity} from "../types";
 import {RegistrationRecord} from "../records/registration.record";
 import {pool} from "../utils/db";
 
@@ -6,11 +6,13 @@ afterAll(async () => {
     await pool.end();
 });
 const validValues: RegistrationEntity = {
+    emailVerified: false,
+    verificationCode: "",
     name: 'Test',
     email: "test@gmail.com",
     login: "testowa",
     password: "test12367",
-    userId: "1",
+    id: "1"
 };
 test('RegistrationRecord constructor sets object properties correctly?', () => {
     const user = new RegistrationRecord(validValues);
@@ -18,7 +20,7 @@ test('RegistrationRecord constructor sets object properties correctly?', () => {
     expect(user.email).toBe('test@gmail.com');
     expect(user.login).toBe('testowa');
     expect(user.password).toBe('test12367');
-    expect(user.userId).toBe('1');
+    expect(user.id).toBe('1');
 });
 test('constructor should throw a ValidationError with invalid data', () => {
     expect(() => new RegistrationRecord({...validValues, name: ''})).toThrowError('Wpisz imię, aby się zalogować.');
@@ -46,10 +48,10 @@ test('getUser returns null for invalid id', async () => {
 });
 test('No inserted RegistrationRecord should has no id', async () => {
     const user = new RegistrationRecord(validValues);
-    expect(user.userId).toBeUndefined();
+    expect(user.id).toBeUndefined();
 });
 test('RegistrationRecord.insertNewUser inserts data to database and user has id-uuid ', async () => {
-    const user = new RegistrationRecord({...validValues, userId: ''});
+    const user = new RegistrationRecord({...validValues, id: ''});
     await user.insertNewUser();
-    expect(user.userId).toMatch(/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/);
+    expect(user.id).toMatch(/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/);
 });

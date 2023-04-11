@@ -1,4 +1,4 @@
-import {AddCategoryEntity, CategoryEntity} from "../types";
+import {CategoryEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
 import {pool} from "../utils/db";
@@ -10,7 +10,7 @@ export class CategoryRecord implements CategoryEntity {
     id: string;
     name: string;
 
-    constructor(obj: AddCategoryEntity) {
+    constructor(obj: CategoryEntity) {
         const {id, name} = obj;
         this.id = id;
         this.name = name;
