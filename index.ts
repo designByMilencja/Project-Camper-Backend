@@ -1,5 +1,5 @@
 import express, {json} from 'express';
-import './utils/config.db';
+import './config/config.db';
 import 'express-async-errors';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
@@ -11,7 +11,7 @@ import {loginRouter} from "./routers/login.router";
 import {monthRouter} from "./routers/month.router";
 import {registrationRouter} from "./routers/registration.router";
 import session from "express-session";
-import {secret} from "./utils/config.db";
+import {secret} from "./config/config.db";
 import helmet from "helmet";
 
 const app = express();

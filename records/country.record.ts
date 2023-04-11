@@ -1,7 +1,7 @@
 import {CountryEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
-import {pool} from "../utils/config.db";
+import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 type CountryRecordResult = [CountryEntity[], FieldPacket[]];
 

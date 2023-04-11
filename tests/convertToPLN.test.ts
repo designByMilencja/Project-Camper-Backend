@@ -1,5 +1,5 @@
 import {convertToPLN} from "../utils/convertToPLN";
-import {pool} from "../utils/config.db";
+import {pool} from "../utils/db";
 
 afterAll(async () => {
     await pool.end();
