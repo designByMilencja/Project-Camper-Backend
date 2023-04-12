@@ -11,7 +11,7 @@ import {countryRouter} from "./routers/country.router";
 import {loginRouter} from "./routers/login.router";
 import {monthRouter} from "./routers/month.router";
 import {registrationRouter} from "./routers/registration.router";
-import {secret} from "./config/config";
+import {secret} from "./utils/secret";
 
 const app = express();
 app.use(helmet());
