@@ -1,8 +1,9 @@
-import './config/config';
-import 'express-async-errors';
 import express, {json, Router} from 'express';
+import 'express-async-errors';
+import session from "express-session";
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import helmet from "helmet";
 import {handleError} from "./utils/errors";
 import {paymentRouter} from "./routers/payment.router";
 import {categoryRouter} from "./routers/category.router";
@@ -10,9 +11,7 @@ import {countryRouter} from "./routers/country.router";
 import {loginRouter} from "./routers/login.router";
 import {monthRouter} from "./routers/month.router";
 import {registrationRouter} from "./routers/registration.router";
-import session from "express-session";
 import {secret} from "./config/config";
-import helmet from "helmet";
 
 const app = express();
 app.use(helmet());
