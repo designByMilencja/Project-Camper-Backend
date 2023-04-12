@@ -1,4 +1,4 @@
-export const config = {
+/** export const config = {
     host: 'localhost',
     user: 'user',
     password: 'password',
@@ -7,3 +7,5 @@ export const config = {
     namedPlaceholders: true,
     decimalNumbers:true,
 }
+ */
+
