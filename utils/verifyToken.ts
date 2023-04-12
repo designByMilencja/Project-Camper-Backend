@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import {secret} from "../config/config.db";
+
+import {secret} from "../config/config";
+
 
 interface DecodedToken {
     userId: string;

@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import {RegistrationRecord} from "../records/registration.record";
 import {CustomSession} from "../types/express.session/express.session";
 import jwt from 'jsonwebtoken';
-import {secret} from "../config/config.db";
+import {secret} from "../config/config";
+
 
 export const loginRouter = Router();
 loginRouter
