@@ -12,13 +12,12 @@ import {loginRouter} from "./routers/login.router";
 import {monthRouter} from "./routers/month.router";
 import {registrationRouter} from "./routers/registration.router";
 import {secret} from "./utils/secret";
-import {config} from "./config/config";
 
 const app = express();
 app.use(helmet());
 app.use(json());
 app.use(cors({
-    origin: config.corsOrigin,
+    origin: 'http://localhost:3000',
 }));
 app.use(session({
     secret: secret,
