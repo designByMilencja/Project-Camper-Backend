@@ -4,7 +4,7 @@ export const pool = createPool({
     host: config.host,
     user: config.user,
     password: config.password,
-    socketPath: config.socketPath,
+    // socketPath: config.socketPath,
     database: config.database,
     namedPlaceholders: true,
     decimalNumbers:true,
