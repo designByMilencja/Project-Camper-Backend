@@ -10,8 +10,7 @@ export class CountryRecord implements CountryEntity {
     name: string;
     currency: string;
 
-    constructor(obj: CountryEntity) {
-        const {id, name, currency} = obj;
+    constructor({id, name, currency}: CountryEntity) {
         this.id = id;
         this.name = name;
         this.currency = currency;

@@ -10,12 +10,9 @@ export class CategoryRecord implements CategoryEntity {
     id: string;
     name: string;
 
-    constructor(obj: CategoryEntity) {
-        const {id, name} = obj;
+    constructor({id, name}: CategoryEntity) {
         this.id = id;
         this.name = name;
-
-
         if (!name || name === '') {
             throw new ValidationError('Wpisz nazwę kategorii, którą chcesz dodać.')
         }
@@ -35,22 +32,24 @@ export class CategoryRecord implements CategoryEntity {
         }
         await pool.execute('INSERT INTO `categories` VALUES (:id, :name)', {
             id: this.id,
-            name:this.name.toUpperCase(),
-
+            name: this.name.toUpperCase(),
         })
         return this.id;
     }
-    async deleteCategory(id:string): Promise<void> {
+
+    async deleteCategory(id: string): Promise<void> {
         await pool.execute('DELETE FROM `categories` WHERE `id`=:id', {
             id,
         })
     }
+
     async updateCategory(name: string): Promise<void> {
         await pool.execute('UPDATE `categories` SET `name`=:name WHERE `id`= :id', {
-            id:this.id,
+            id: this.id,
             name,
-         });
+        });
     };
+
     static async getOneCategory(id: string): Promise<CategoryRecord> {
         const [results] = await pool.execute('SELECT * FROM `categories` WHERE `id`= :id', {
             id
