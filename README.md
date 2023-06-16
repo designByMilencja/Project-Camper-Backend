@@ -37,5 +37,5 @@ The main purpose of my application is to record my daily expenses during travell
 <img alt="badges of MacOs" src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" /> <img alt="badges of Webstorm" src="https://img.shields.io/badge/WebStorm-000000?style=for-the-badge&logo=WebStorm&logoColor=white" />
 
 ## Contact
-Created by desingByMilencja - feel free to contact me!
+Created by designByMilencja - feel free to contact me!
 designbymilencja@gmail.com
