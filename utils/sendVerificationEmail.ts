@@ -1,8 +1,6 @@
-import {google} from 'googleapis';
 const nodemailer = require('nodemailer');
-
+import {google} from 'googleapis';
 import {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN} from "./secret";
-
 const oAuth2Client = new google.auth.OAuth2(
     CLIENT_ID,
     CLIENT_SECRET,
@@ -11,10 +9,10 @@ const oAuth2Client = new google.auth.OAuth2(
 oAuth2Client.setCredentials({
     refresh_token: REFRESH_TOKEN
 });
+
 export const sendVerificationEmail = async (to: string, verificationKey: string) => {
     try {
         const accessToken = await oAuth2Client.getAccessToken();
-
         const transport = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -31,7 +29,7 @@ export const sendVerificationEmail = async (to: string, verificationKey: string)
             from: 'ProjectCamper📨<projectcamper2023@gmail.com>',
             to: 'milena.pienkosz1991@gmail.com',
             subject: 'Potwierdzenie rejestracji na stronie Project Camper by Milencja',
-            text: `Witaj! Aby aktywować konto, kliknij w poniższy link: http://localhost:3001/registration/verify/${verificationKey}`,
+            text: `Witaj! Aby aktywować konto, kliknij w poniższy link: http://localhost:3001/egistration/verify/${verificationKey}`,
             html: `<h1>Witaj! Aby aktywować konto, kliknij w poniższy link: http://localhost:3001/registration/verify/${verificationKey}</h1>`,
         };
         return await transport.sendMail(mailOptions);

@@ -9,8 +9,7 @@ export class MonthRecord implements MonthEntity {
     name: string;
     number: number;
 
-    constructor(obj: MonthEntity) {
-        const {id, name, number} = obj;
+    constructor({id, name, number}: MonthEntity) {
         this.id = id;
         this.name = name;
         this.number = number;
