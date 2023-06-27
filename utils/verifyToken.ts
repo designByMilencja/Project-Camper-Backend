@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
 import {secret} from "./secret";
-
 
 interface DecodedToken {
     userId: string;
@@ -16,7 +14,6 @@ export const verifyToken = (req: RequestWithUserId, res: Response, next: NextFun
     if (!token) {
         return res.status(401).json({ message: 'Brak autoryzacji.' });
     }
-
     try {
         const decoded = jwt.verify(token, secret) as DecodedToken;
         req.userId = decoded.userId;

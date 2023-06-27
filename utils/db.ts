@@ -1,5 +1,6 @@
 import {config} from "../config/config";
 import {createPool} from "mysql2/promise";
+
 export const pool = createPool({
     host: config.host,
     user: config.user,
@@ -7,5 +8,5 @@ export const pool = createPool({
     socketPath: config.socketPath,
     database: config.database,
     namedPlaceholders: true,
-    decimalNumbers:true,
+    decimalNumbers: true,
 })

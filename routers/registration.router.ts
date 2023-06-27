@@ -20,8 +20,6 @@ registrationRouter
                         password: hash,
                         verificationKey,
                     });
-                    console.log(newUser)
-                    console.log(verificationKey)
                     try {
                         const user = await newUser.insertNewUser();
                         await sendVerificationEmail(user.email, verificationKey);
