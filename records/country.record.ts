@@ -3,6 +3,7 @@ import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
+
 type CountryRecordResult = [CountryEntity[], FieldPacket[]];
 
 export class CountryRecord implements CountryEntity {
@@ -35,20 +36,22 @@ export class CountryRecord implements CountryEntity {
             throw new ValidationError('Cannot insert sth that is already added!');
         }
         await pool.execute('INSERT INTO `countries` VALUES (:id, :name, :currency)', {
-            id:this.id,
-            name:this.name.toUpperCase(),
-            currency:this.currency.toUpperCase(),
+            id: this.id,
+            name: this.name.toUpperCase(),
+            currency: this.currency.toUpperCase(),
         });
         return this.id;
     }
-    async deleteCountry(id:string): Promise<void> {
+
+    async deleteCountry(id: string): Promise<void> {
         await pool.execute('DELETE FROM `countries` WHERE `id`=:id', {
             id,
         })
     }
-    async updateCountry(name: string, currency:string): Promise<void> {
+
+    async updateCountry(name: string, currency: string): Promise<void> {
         await pool.execute('UPDATE `countries` SET `name`=:name, `currency`=:currency WHERE `id`= :id', {
-            id:this.id,
+            id: this.id,
             name,
             currency,
         });
@@ -65,6 +68,4 @@ export class CountryRecord implements CountryEntity {
         const [results] = await pool.execute('SELECT * FROM `countries`') as CountryRecordResult;
         return results.map(obj => new CountryRecord(obj));
     }
-
-
 }
